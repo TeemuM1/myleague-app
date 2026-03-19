@@ -1,10 +1,10 @@
-import { Suspense } from 'react';
 import type { ComponentType } from 'react';
 import type { RouteObject } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 import ProtectedRoute from '../components/ProtectedRoute/ProtectedRoute';
 import RouteErrorBoundary from '../components/RouteErrorBoundary/RouteErrorBoundary';
 import { lazyWithRetry } from '../utils/lazyWithRetry';
+import SuspenseWrapper from '../components/SuspenseWrapper/SuspenseWrapper';
 
 // Public pages
 const HomePage = lazyWithRetry(() => import('../pages/HomePage/HomePage'));
@@ -46,6 +46,7 @@ const ClubsManagementPage = lazyWithRetry(() => import('../pages/AdminPage/ClubP
 const CreateClubPage = lazyWithRetry(() => import('../pages/AdminPage/ClubPage/CreateClubPage'));
 const EditClubPage = lazyWithRetry(() => import('../pages/AdminPage/ClubPage/EditClubPage'));
 const ClubDetailsPage = lazyWithRetry(() => import('../pages/AdminPage/ClubPage/ClubDetailsPage'));
+const RulesManagementPage = lazyWithRetry(() => import('../pages/AdminPage/RulesPage/RulesManagementPage'));
 
 // Floorball management pages
 const FloorballManagementPage = lazyWithRetry(() => import('../pages/AdminPage/FloorballManagementPage/FloorballManagementPage'));
@@ -67,10 +68,6 @@ const MatchManagementPage = lazyWithRetry(() => import('../pages/AdminPage/Floor
 const CreateMatchPage = lazyWithRetry(() => import('../pages/AdminPage/FloorballManagementPage/CreateMatchPage/CreateMatchPage'));
 const EditMatchPage = lazyWithRetry(() => import('../pages/AdminPage/FloorballManagementPage/EditMatchPage/EditMatchPage'));
 const ManageMatchPage = lazyWithRetry(() => import('../pages/AdminPage/FloorballManagementPage/ManageMatchPage/ManageMatchPage'));
-
-function SuspenseWrapper({ children }: { children: React.ReactNode }) {
-  return <Suspense fallback={null}>{children}</Suspense>;
-}
 
 export const routes: RouteObject[] = [
   {
@@ -341,6 +338,10 @@ export const routes: RouteObject[] = [
         element: <ProtectedRoute><SuspenseWrapper><NewsCreateEditPage /></SuspenseWrapper></ProtectedRoute>
       }
     ]
+  },
+  {
+    path: '/admin/rules',
+    element: <ProtectedRoute><SuspenseWrapper><RulesManagementPage /></SuspenseWrapper></ProtectedRoute>
   },
   {
     path: '/match/:id',

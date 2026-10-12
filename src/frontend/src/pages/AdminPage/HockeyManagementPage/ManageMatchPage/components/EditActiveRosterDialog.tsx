@@ -58,6 +58,7 @@ interface TeamColumnProps {
   onUseLoanGoalkeeper: () => void;
   onUseLoanPlayers: (count: number) => void;
   loanGoalkeeperBusy: boolean;
+  lockedPlayerIds: ReadonlySet<string>;
 }
 
 type PendingLoanAction =
@@ -70,6 +71,9 @@ interface RoleChipsRowProps {
   players: HockeyLineupPlayer[];
   onRemove: (playerId: string) => void;
   removeAriaLabel: string;
+  /** Players with recorded events in this match; they cannot be removed. */
+  lockedPlayerIds: ReadonlySet<string>;
+  lockedLabel: string;
 }
 
 const toLineupPlayers = (
@@ -132,6 +136,8 @@ const RoleChipsRow = ({
   players,
   onRemove,
   removeAriaLabel,
+  lockedPlayerIds,
+  lockedLabel,
 }: RoleChipsRowProps): ReactElement => (
   <div className="eard-role-row">
     <div className="eard-role-row__label">
@@ -154,8 +160,9 @@ const RoleChipsRow = ({
               type="button"
               className="eard-chip__remove"
               onClick={() => onRemove(player.id)}
-              aria-label={removeAriaLabel}
-              title={removeAriaLabel}
+              disabled={lockedPlayerIds.has(player.id)}
+              aria-label={lockedPlayerIds.has(player.id) ? lockedLabel : removeAriaLabel}
+              title={lockedPlayerIds.has(player.id) ? lockedLabel : removeAriaLabel}
             >
               <i className="fas fa-times" aria-hidden="true"></i>
             </button>
@@ -176,6 +183,7 @@ const TeamColumn = ({
   onUseLoanGoalkeeper,
   onUseLoanPlayers,
   loanGoalkeeperBusy,
+  lockedPlayerIds,
 }: TeamColumnProps): ReactElement => {
   const { t } = useTranslation();
   const [search, setSearch] = useState('');
@@ -319,6 +327,8 @@ const TeamColumn = ({
             emptyLabel={t('hockey.matches.lineup.noDefenders', 'No defenders selected.')}
             players={defenders}
             onRemove={onRemovePlayer}
+            lockedPlayerIds={lockedPlayerIds}
+            lockedLabel={t('hockey.matches.lineup.hasEvents', 'Player has recorded events in this match')}
             removeAriaLabel={t('hockey.matches.lineup.removePlayer', 'Remove from lineup')}
           />
           <RoleChipsRow
@@ -326,6 +336,8 @@ const TeamColumn = ({
             emptyLabel={t('hockey.matches.lineup.noForwards', 'No forwards selected.')}
             players={forwards}
             onRemove={onRemovePlayer}
+            lockedPlayerIds={lockedPlayerIds}
+            lockedLabel={t('hockey.matches.lineup.hasEvents', 'Player has recorded events in this match')}
             removeAriaLabel={t('hockey.matches.lineup.removePlayer', 'Remove from lineup')}
           />
           <RoleChipsRow
@@ -333,6 +345,8 @@ const TeamColumn = ({
             emptyLabel={t('hockey.matches.lineup.noBackupGoalies', 'No backup goalie.')}
             players={backupGoalies}
             onRemove={onRemovePlayer}
+            lockedPlayerIds={lockedPlayerIds}
+            lockedLabel={t('hockey.matches.lineup.hasEvents', 'Player has recorded events in this match')}
             removeAriaLabel={t('hockey.matches.lineup.removePlayer', 'Remove from lineup')}
           />
         </div>
@@ -524,6 +538,30 @@ function EditActiveRosterDialog({
     setHomeState(lineupFromMatch(match, 'home'));
     setAwayState(lineupFromMatch(match, 'away'));
   }, [isOpen, match]);
+
+  // Team players with recorded events; the backend refuses to remove them, so the dialog locks them too.
+  const lockedPlayerIds: ReadonlySet<string> = useMemo(() => {
+    const teamPlayerByActiveId = new Map<string, string>();
+    for (const side of match.matchTeams) {
+      for (const player of side.activePlayers) {
+        teamPlayerByActiveId.set(player.id, player.teamPlayerId);
+      }
+    }
+    const locked = new Set<string>();
+    for (const eventItem of match.events) {
+      const referenced = [
+        eventItem.matchActivePlayerId,
+        eventItem.losingActivePlayerId,
+        eventItem.primaryAssistActivePlayerId,
+        eventItem.secondaryAssistActivePlayerId,
+      ];
+      for (const activeId of referenced) {
+        const teamPlayerId = activeId ? teamPlayerByActiveId.get(activeId) : undefined;
+        if (teamPlayerId) locked.add(teamPlayerId);
+      }
+    }
+    return locked;
+  }, [match.matchTeams, match.events]);
 
   const homePlayers = useMemo(
     () => toLineupPlayers(homeTeam?.roster ?? [], playerNames, match.competitionId),
@@ -748,6 +786,7 @@ function EditActiveRosterDialog({
             state={homeState}
             onAddPlayer={(id, role) => addPlayer('home', id, role)}
             onRemovePlayer={(id) => removePlayer('home', id)}
+            lockedPlayerIds={lockedPlayerIds}
             onSetGoalie={(id) => setGoalie('home', id)}
             onUseLoanGoalkeeper={() => setPendingLoan({ kind: 'goalkeeper', side: 'home' })}
             onUseLoanPlayers={(count) => setPendingLoan({ kind: 'players', side: 'home', count })}
@@ -759,6 +798,7 @@ function EditActiveRosterDialog({
             state={awayState}
             onAddPlayer={(id, role) => addPlayer('away', id, role)}
             onRemovePlayer={(id) => removePlayer('away', id)}
+            lockedPlayerIds={lockedPlayerIds}
             onSetGoalie={(id) => setGoalie('away', id)}
             onUseLoanGoalkeeper={() => setPendingLoan({ kind: 'goalkeeper', side: 'away' })}
             onUseLoanPlayers={(count) => setPendingLoan({ kind: 'players', side: 'away', count })}

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { ChangeEvent, ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { floorballMatchService } from '../../../../../api/floorball/floorballMatchService';
@@ -433,11 +433,19 @@ const EditActiveRosterDialog = ({
   const [loanSide, setLoanSide] = useState<'home' | 'away' | null>(null);
   const [pendingLoan, setPendingLoan] = useState<PendingLoanAction | null>(null);
 
+  // Load the lineup only when the dialog opens, so a match refresh during live play does not
+  // wipe the admin's unsaved changes.
+  const wasOpenRef = useRef(false);
   useEffect(() => {
     if (!isOpen) {
+      wasOpenRef.current = false;
       setPendingLoan(null);
       return;
     }
+    if (wasOpenRef.current) {
+      return;
+    }
+    wasOpenRef.current = true;
     setHomeState({
       players: lineupToMap(initialHomeLineup),
       goalieId: initialHomeGoalieId,

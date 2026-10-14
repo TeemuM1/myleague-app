@@ -14,12 +14,13 @@ namespace MyLeague.Infrastructure.Services.Seeding;
 
 /// <summary>
 /// Seeds the database with default users at application startup.
-/// In development: always creates a test user if one does not exist.
+/// In development: always creates a test system admin, a club admin and a match official if they do not exist.
 /// In any environment: creates an admin user if Seed:AdminEmail is configured and the user does not exist.
 /// </summary>
 public class DatabaseSeeder
 {
     private const string DevTestEmail = "test@myleague.local";
+    private const string DevMatchOfficialEmail = "official@myleague.local";
 
     /// <summary>
     /// Seeds default users into the database
@@ -40,6 +41,8 @@ public class DatabaseSeeder
         {
             await SeedUserAsync(dbContext, logger, DevTestEmail, "Test", "User", PersonRole.Admin);
             await SeedClubAdminAsync(dbContext, logger);
+            await SeedUserAsync(dbContext, logger, DevMatchOfficialEmail, "Match", "Official", PersonRole.User,
+                UserRole.MatchOfficial);
         }
 
         // In any environment, seed admin user if configured
@@ -62,7 +65,8 @@ public class DatabaseSeeder
         string email,
         string firstName,
         string lastName,
-        PersonRole role)
+        PersonRole role,
+        UserRole userRole = UserRole.SystemAdmin)
     {
         bool userExists = await dbContext.Users.AnyAsync(u => u.Email.ToLower() == email.ToLower());
         if (userExists)
@@ -77,7 +81,7 @@ public class DatabaseSeeder
             role: role,
             contactInfo: new ContactInfo(email));
 
-        User user = new(email, person.Id, UserRole.SystemAdmin);
+        User user = new(email, person.Id, userRole);
         user.IsActive = true;
         user.IsEmailVerified = true;
 
@@ -87,7 +91,7 @@ public class DatabaseSeeder
 
         logger.LogInformation(
             "Seeded user '{Email}' with role {Role} (PersonId: {PersonId}, UserId: {UserId}).",
-            email, role, person.Id, user.Id);
+            email, userRole, person.Id, user.Id);
     }
 
     private const string DevClubAdminEmail = "clubadmin@myleague.local";

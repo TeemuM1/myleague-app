@@ -753,7 +753,8 @@
       },
       "roles": {
         "systemAdmin": "System Admin",
-        "clubAdmin": "Club Admin"
+        "clubAdmin": "Club Admin",
+        "matchOfficial": "Match official"
       },
       "confirmDelete": {
         "title": "Delete user",
@@ -4290,6 +4291,43 @@
     "viewTeam": "View team",
     "showEarlierSeasons": "Earlier seasons ({{count}})",
     "hideEarlierSeasons": "Hide earlier seasons"
+  },
+  "official": {
+    "view": "Match official",
+    "logout": "Log out",
+    "loginTitle": "Match official login",
+    "manageTitle": "Match management",
+    "matchNotFound": "Match not found.",
+    "verify": {
+      "invitation": "Match official invitation",
+      "accountActive": "Your account is now active. Here is how to log in to the match official area:",
+      "enterCode": "Enter the code on the login page to access the match official area.",
+      "goToLogin": "Go to match official login"
+    },
+    "matches": {
+      "title": "Matches",
+      "sportTabs": "Sport",
+      "sports": {
+        "floorball": "Floorball",
+        "football": "Football",
+        "hockey": "Ice hockey"
+      },
+      "date": "Date",
+      "previousDay": "Previous day",
+      "nextDay": "Next day",
+      "today": "Today",
+      "refresh": "Refresh",
+      "loading": "Loading matches...",
+      "loadError": "Failed to load matches.",
+      "empty": "No matches on this day.",
+      "tbd": "TBD",
+      "manage": "Manage",
+      "status": {
+        "scheduled": "Scheduled",
+        "live": "Live",
+        "completed": "Completed"
+      }
+    }
   },
   "clubAdmin": {
     "view": "Club admin",

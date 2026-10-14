@@ -116,6 +116,9 @@ const ClubAdminClubInfoPage = lazyWithRetry(() => import('../pages/ClubAdminPage
 const ClubAdminRosterPage = lazyWithRetry(() => import('../pages/ClubAdminPage/ClubAdminRosterPage/ClubAdminRosterPage'));
 const ClubAdminMatchRosterPage = lazyWithRetry(() => import('../pages/ClubAdminPage/ClubAdminMatchRosterPage/ClubAdminMatchRosterPage'));
 
+// Match official pages
+const OfficialMatchesPage = lazyWithRetry(() => import('../pages/OfficialPage/OfficialMatchesPage'));
+
 // Public football pages
 const FootballPage = lazyWithRetry(() => import('../pages/football/FootballPage/FootballPage'));
 const FootballLeaguePage = lazyWithRetry(() => import('../pages/football/FootballLeaguePage/FootballLeaguePage'));
@@ -215,6 +218,54 @@ export const routes: RouteObject[] = [
         element: (
           <ProtectedRoute allowedRoles={['ClubAdmin', 'SystemAdmin']} loginPath="/club-admin/login">
             <SuspenseWrapper><ClubAdminMatchRosterPage /></SuspenseWrapper>
+          </ProtectedRoute>
+        )
+      }
+    ]
+  },
+  // Match official login (public)
+  {
+    path: '/official/login',
+    element: <SuspenseWrapper><LoginPage variant="official" /></SuspenseWrapper>
+  },
+  // Match official email verification (public – linked from invitation email)
+  {
+    path: '/official/verify-email',
+    element: <SuspenseWrapper><VerifyEmailPage variant="official" /></SuspenseWrapper>
+  },
+  // Protected match official routes (site admins may also access them)
+  {
+    path: '/official',
+    children: [
+      {
+        index: true,
+        element: (
+          <ProtectedRoute allowedRoles={['MatchOfficial', 'SystemAdmin']} loginPath="/official/login">
+            <SuspenseWrapper><OfficialMatchesPage /></SuspenseWrapper>
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: 'floorball/matches/:matchId',
+        element: (
+          <ProtectedRoute allowedRoles={['MatchOfficial', 'SystemAdmin']} loginPath="/official/login">
+            <SuspenseWrapper><ManageMatchPage mode="official" /></SuspenseWrapper>
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: 'football/matches/:matchId',
+        element: (
+          <ProtectedRoute allowedRoles={['MatchOfficial', 'SystemAdmin']} loginPath="/official/login">
+            <SuspenseWrapper><FootballManageMatchPage mode="official" /></SuspenseWrapper>
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: 'hockey/matches/:matchId',
+        element: (
+          <ProtectedRoute allowedRoles={['MatchOfficial', 'SystemAdmin']} loginPath="/official/login">
+            <SuspenseWrapper><ManageHockeyMatchPage mode="official" /></SuspenseWrapper>
           </ProtectedRoute>
         )
       }

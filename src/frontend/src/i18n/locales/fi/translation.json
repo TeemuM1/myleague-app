@@ -753,7 +753,8 @@
       },
       "roles": {
         "systemAdmin": "Järjestelmänvalvoja",
-        "clubAdmin": "Seuran ylläpitäjä"
+        "clubAdmin": "Seuran ylläpitäjä",
+        "matchOfficial": "Toimitsija"
       },
       "confirmDelete": {
         "title": "Poista käyttäjä",
@@ -4279,6 +4280,43 @@
     "viewTeam": "Näytä joukkue",
     "showEarlierSeasons": "Aiemmat kaudet ({{count}})",
     "hideEarlierSeasons": "Piilota aiemmat kaudet"
+  },
+  "official": {
+    "view": "Toimitsija",
+    "logout": "Kirjaudu ulos",
+    "loginTitle": "Toimitsija - Kirjautuminen",
+    "manageTitle": "Ottelun hallinta",
+    "matchNotFound": "Ottelua ei löytynyt.",
+    "verify": {
+      "invitation": "Toimitsijakutsu",
+      "accountActive": "Tilisi on nyt aktiivinen. Näin kirjaudut toimitsijanäkymään:",
+      "enterCode": "Syötä koodi kirjautumissivulla päästäksesi toimitsijanäkymään.",
+      "goToLogin": "Siirry toimitsijan kirjautumiseen"
+    },
+    "matches": {
+      "title": "Ottelut",
+      "sportTabs": "Laji",
+      "sports": {
+        "floorball": "Salibandy",
+        "football": "Jalkapallo",
+        "hockey": "Jääkiekko"
+      },
+      "date": "Päivämäärä",
+      "previousDay": "Edellinen päivä",
+      "nextDay": "Seuraava päivä",
+      "today": "Tänään",
+      "refresh": "Päivitä",
+      "loading": "Ladataan otteluita...",
+      "loadError": "Otteluiden lataus epäonnistui.",
+      "empty": "Tälle päivälle ei ole otteluita.",
+      "tbd": "Avoin",
+      "manage": "Hallinnoi",
+      "status": {
+        "scheduled": "Tulossa",
+        "live": "Käynnissä",
+        "completed": "Päättynyt"
+      }
+    }
   },
   "clubAdmin": {
     "view": "Seuran ylläpito",

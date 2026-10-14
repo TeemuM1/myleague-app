@@ -121,7 +121,7 @@ Unhandled exceptions (`ExceptionHandlingMiddleware`):
 
 - JWT bearer. Issuer, audience, and key come from the `Jwt` section. Startup fails if `Jwt:SecretKey` is shorter than 32 bytes, or if it is empty outside Development. An empty key in Development falls back to a built-in key.
 - SignalR sends the token as `?access_token=` on paths under `/api/hubs`.
-- There is no fallback authorization policy. An action without `[Authorize]` is public. Writes use `[Authorize(Roles = AuthRoles.AdminOnly)]` or `[Authorize(Roles = AuthRoles.ClubAdminOrAdmin)]`.
+- There is no fallback authorization policy. An action without `[Authorize]` is public. Writes use `[Authorize(Roles = AuthRoles.AdminOnly)]` or `[Authorize(Roles = AuthRoles.ClubAdminOrAdmin)]`. Live match operations (match events, the match timer and its SignalR methods, periods, match rosters and lineups, start/finish/reopen/revert) use `[Authorize(Roles = AuthRoles.MatchOperators)]` so a `MatchOfficial` can run any match. Hockey `PATCH status` is open to match officials only for `InProgress` (reopen); other statuses return 403. Outside the match controllers, the match-day `loan-goalkeeper` and `loan-players` team actions and hockey `POST statistics/matches/{matchId}/recalculate` also use `MatchOperators`.
 - Sign-in flow: `POST /api/auth/login` `{ "email" }` → `POST /api/auth/verify` `{ "email", "code" }` → `{ accessToken, refreshToken, expiresAt }`. Then `POST /api/auth/refresh`, `POST /api/auth/logout`, `GET /api/auth/me`.
 - With `LoginCode:AutoFillLoginCode` on (Development only), `/api/auth/login` returns the code in `data.autoFillCode`. Never enable it on a public environment.
 
@@ -184,7 +184,7 @@ Follow the [run-local skill](../../../.claude/skills/run-local/SKILL.md): Postgr
 dotnet run --project src/backend/WebAPI/WebAPI.csproj --urls http://localhost:8080
 ```
 
-`launchSettings.json` uses `https://localhost:65532` and `http://localhost:65533`; the local setup above does not use those ports. At startup the API applies migrations for all four contexts. In Development it seeds the sign-in users `test@myleague.local` (SystemAdmin) and `clubadmin@myleague.local` (ClubAdmin). It also seeds `Seed:AdminEmail` when set; `docker-compose.override.yml` sets it to `test@myleague.fi`. Sport data comes from `src/tools/Seeder`.
+`launchSettings.json` uses `https://localhost:65532` and `http://localhost:65533`; the local setup above does not use those ports. At startup the API applies migrations for all four contexts. In Development it seeds the sign-in users `test@myleague.local` (SystemAdmin), `clubadmin@myleague.local` (ClubAdmin) and `official@myleague.local` (MatchOfficial). It also seeds `Seed:AdminEmail` when set; `docker-compose.override.yml` sets it to `test@myleague.fi`. Sport data comes from `src/tools/Seeder`.
 
 ## Logging
 

@@ -28,7 +28,7 @@ Application/
     ├── Common/
     │   ├── Organization/     ClubAdmin, Clubs, DataSubjectRights, Deletion, Divisions,
     │   │                     Persons, PlayerLicences, Users
-    │   ├── Content/          FooterContacts, Images, InfoPageContent, News, RulesSection
+    │   ├── Content/          Advertisements, FooterContacts, Images, InfoPageContent, News, RulesSection
     │   ├── CrossCutting/     MatchTimer, Search
     │   ├── SiteSettings/
     │   ├── Statistics/       AllTimePlayerStatistics (shared all-time sorting and paging)

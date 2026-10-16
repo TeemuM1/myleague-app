@@ -14,8 +14,8 @@ Domain/
 ├── Constants/         AuthRoles, loan player / loan goalkeeper names and jersey numbers
 ├── Entities/
 │   ├── BaseEntity.cs
-│   ├── Common/        Club, ClubManager, Division, FooterContact, InfoPageContent, NewsArticle,
-│   │                  Person, RefreshToken, RulesSection, SiteSettings, TimerState, User
+│   ├── Common/        Advertisement, Club, ClubManager, Division, FooterContact, InfoPageContent,
+│   │                  NewsArticle, Person, RefreshToken, RulesSection, SiteSettings, TimerState, User
 │   ├── Floorball/     Competitions/  Matches/ (+ Events/)  Officials/  Statistics/  Teams/
 │   ├── Football/      Competitions/  Matches/  Officials/  Statistics/  Teams/
 │   └── Hockey/        Competitions/  Matches/ (+ Events/)  Officials/  Statistics/  Teams/

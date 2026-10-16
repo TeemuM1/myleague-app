@@ -71,7 +71,7 @@ public class DatabaseSeeder
         bool userExists = await dbContext.Users.AnyAsync(u => u.Email.ToLower() == email.ToLower());
         if (userExists)
         {
-            logger.LogInformation("Seed user '{Email}' already exists, skipping.", email);
+            logger.LogInformation("Seed user with role {Role} already exists, skipping.", userRole);
             return;
         }
 
@@ -90,8 +90,8 @@ public class DatabaseSeeder
         await dbContext.SaveChangesAsync();
 
         logger.LogInformation(
-            "Seeded user '{Email}' with role {Role} (PersonId: {PersonId}, UserId: {UserId}).",
-            email, userRole, person.Id, user.Id);
+            "Seeded user with role {Role} (PersonId: {PersonId}, UserId: {UserId}).",
+            userRole, person.Id, user.Id);
     }
 
     private const string DevClubAdminEmail = "clubadmin@myleague.local";
@@ -122,8 +122,8 @@ public class DatabaseSeeder
             await dbContext.SaveChangesAsync();
             personId = person.Id;
             logger.LogInformation(
-                "Seeded club admin '{Email}' (PersonId: {PersonId}, UserId: {UserId}).",
-                DevClubAdminEmail, person.Id, user.Id);
+                "Seeded dev club admin (PersonId: {PersonId}, UserId: {UserId}).",
+                person.Id, user.Id);
         }
         else
         {
@@ -134,9 +134,8 @@ public class DatabaseSeeder
         if (club is null)
         {
             logger.LogInformation(
-                "Club '{ClubName}' is not seeded yet; club admin '{Email}' has no manager link.",
-                DevClubAdminClubName,
-                DevClubAdminEmail);
+                "Club '{ClubName}' is not seeded yet; the dev club admin has no manager link.",
+                DevClubAdminClubName);
             return;
         }
 
@@ -150,8 +149,7 @@ public class DatabaseSeeder
         dbContext.ClubManagers.Add(new ClubManager(personId, club.Id));
         await dbContext.SaveChangesAsync();
         logger.LogInformation(
-            "Linked club admin '{Email}' to club '{ClubName}'.",
-            DevClubAdminEmail,
+            "Linked the dev club admin to club '{ClubName}'.",
             DevClubAdminClubName);
     }
 }

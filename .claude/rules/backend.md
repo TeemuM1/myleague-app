@@ -52,7 +52,7 @@ Entities inherit `BaseEntity` (`Id`, `CreatedAt`, `UpdatedAt`). Use private sett
 
 ## WebAPI
 
-Inherit `Controllers/Common/BaseApiController`. Map request → MediatR → `HandleResult` / `HandlePaginatedResult` / `HandleListResult` / `HandleVoidResult` (failures go through `ToErrorResponse`). Wrap payloads in `ApiResponse<T>` / `PaginatedApiResponse<T>`. Mutations use `[Authorize(Roles = AuthRoles.AdminOnly)]` or `AuthRoles.ClubAdminOrAdmin`. Put XML comments on actions (OpenAPI). Log with structured properties, and pass user strings through `SanitizeForLog`.
+Inherit `Controllers/Common/BaseApiController`. Map request → MediatR → `HandleResult` / `HandlePaginatedResult` / `HandleListResult` / `HandleVoidResult` (failures go through `ToErrorResponse`). Wrap payloads in `ApiResponse<T>` / `PaginatedApiResponse<T>`. Mutations use `[Authorize(Roles = AuthRoles.AdminOnly)]` or `AuthRoles.ClubAdminOrAdmin`. Live match operations a match official needs use `AuthRoles.MatchOperators`. Class- and method-level `[Authorize]` attributes must all pass, so an admin-only action in a `MatchOperators` controller adds its own `AdminOnly`. Put XML comments on actions (OpenAPI). Log with structured properties, and pass user strings through `SanitizeForLog`.
 
 ```csharp
 Result<ClubDto> result = await _mediator.Send(new GetClubByIdQuery(id));

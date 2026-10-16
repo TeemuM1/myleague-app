@@ -46,6 +46,9 @@ A Person with a referee role in floorball. Tracks referee-specific attributes li
 ### FloorballTeamManager
 A Person with a team management role. Handles administrative responsibilities for a floorball team.
 
+### User role
+A `User` has one `UserRole`. `SystemAdmin` has full access. `ClubAdmin` manages the clubs it is linked to through `ClubManager`, their teams, and match-day rosters. `MatchOfficial` (toimitsija) runs any match live in every sport: events, timer, periods, match rosters, and start, finish or reopen. It has no other admin access. A match official user is not the same as a referee or `HockeyOfficial` profile, or a match scorekeeper; those are `Person` assignments on a match and grant no access.
+
 ## Value Objects
 
 ### Address

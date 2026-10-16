@@ -3,7 +3,7 @@
 React single-page app for MyLeague. It has four areas:
 
 - **Public site**: floorball, football, and ice hockey (`/sports/floorball`, `/sports/football`, `/sports/icehockey`), plus clubs, news, event calendar, rules, age groups, MAHL and Children (Lapset menu) info pages, registration, and all-time statistics.
-- **Admin** (`/admin`, role `SystemAdmin`): clubs, divisions, persons, users, site settings, news, rules, MAHL and Children info pages, footer contacts, data subject rights, and teams, players, officials, seasons, tournaments, and live match control for all three sports.
+- **Admin** (`/admin`, role `SystemAdmin`): clubs, divisions, persons, users, site settings, news, rules, MAHL and Children info pages, footer contacts, home page ads, data subject rights, and teams, players, officials, seasons, tournaments, and live match control for all three sports.
 - **Club admin** (`/club-admin`, roles `ClubAdmin` or `SystemAdmin`): club info, team rosters, and match-day rosters for any sport.
 - **Match official** (`/official`, roles `MatchOfficial` or `SystemAdmin`): a day's matches for each sport, and the live match desk. The desk is the sport's admin `ManageMatchPage` rendered with `mode="official"`, which swaps in `OfficialPageTemplate` and hides match editing, team assignment, and the officials and scorekeepers sections.
 
@@ -94,7 +94,7 @@ src/
 ├── constants/             config.ts (API_URL), sports, notification constants
 ├── context/               AuthContext.tsx, AudienceContext.tsx
 ├── functions/             ResizeImage.tsx
-├── hooks/                 useMatchData, useMatchTimer, useIntervalWhen, in-progress match providers ...
+├── hooks/                 useMatchData, useMatchTimer, useIntervalWhen, useMediaQuery, in-progress match providers ...
 ├── i18n/                  i18n.ts, locales/fi/translation.json, locales/en/translation.json
 ├── pages/                 route-level screens
 │   ├── floorball/ football/ hockey/   public sport pages (league, match, team, tournament, player)

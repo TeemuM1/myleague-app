@@ -12,9 +12,9 @@ Conventions: [backend rules](../../../.claude/rules/backend.md#webapi). New or c
 WebAPI/
 ├── Controllers/
 │   ├── Auth/                AuthController
-│   ├── Common/              BaseApiController, ApiErrorHttpMapper, ClubAdmin, Clubs, DataSubjectRights,
-│   │                        Divisions, FooterContact, InfoPageContent, MatchTimer, News, Persons,
-│   │                        RulesSection, Search, SiteSettings, Users
+│   ├── Common/              BaseApiController, ApiErrorHttpMapper, Advertisements, ClubAdmin, Clubs,
+│   │                        DataSubjectRights, Divisions, FooterContact, InfoPageContent, MatchTimer,
+│   │                        News, Persons, RulesSection, Search, SiteSettings, Users
 │   ├── Floorball/           Player, Referee, Season, Statistics, Team, TeamManager, Tournament
 │   │   └── Match/           Matches, Events, Lifecycle, Officials, Roster, Scorekeepers
 │   ├── Football/            same as Floorball

@@ -13,6 +13,9 @@ An organization that manages and sponsors floorball teams. A Club typically has 
 ### FooterContact
 An entry in the public site footer. `Section` is Contact, SeasonalSports, or OtherActivities. Contact rows may include details, email, and phone; the other sections are a title plus an optional link.
 
+### Advertisement
+An image ad on the public home page, optionally linked to an http(s) address. `Slot` (`AdSlot`) is LeftTop, LeftBottom, RightTop, RightBottom, or BottomCenter. An ad is shown only while `IsActive` is true and the current time is inside its optional `StartsAt`–`EndsAt` window (start inclusive, end exclusive). Several ads in one slot rotate in `SortOrder`.
+
 ### SiteSettings
 A singleton row of site-owned configuration. Authentication timings: access-token minutes, refresh-token days, login-code minutes and max attempts, and how many minutes before access-token expiry the session reminder appears. Also stores the yearly player-licence cutoff (month and day, default 1 May) and the last calendar year that cutoff was applied. Secrets stay in application configuration.
 

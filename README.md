@@ -164,7 +164,7 @@ Scalar UI: `/scalar/v1`. OpenAPI JSON: `/swagger/v1/swagger.json`. Both exist on
 |------|-------------|
 | Auth | `/api/auth/login`, `/verify`, `/refresh`, `/logout`, `/verify-admin-email`, `/me` |
 | Organization | `/api/clubs`, `/api/divisions`, `/api/persons`, `/api/users`, `/api/club-admin` |
-| Content | `/api/news`, `/api/search`, `/api/rulessection`, `/api/infopagecontent`, `/api/footercontact` |
+| Content | `/api/news`, `/api/search`, `/api/rulessection`, `/api/infopagecontent`, `/api/footercontact`, `/api/advertisements` |
 | Admin | `/api/site-settings` (includes `POST /player-licence-reset`), `/api/data-subject-rights` |
 | Match timer | `/api/matches/{matchId}/timer` |
 | Real-time | `/api/hubs/domainevent` (SignalR; JWT in the `access_token` query parameter) |

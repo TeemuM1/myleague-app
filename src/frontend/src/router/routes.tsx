@@ -48,6 +48,9 @@ const RulesManagementPage = lazyWithRetry(
 const FooterContactsManagementPage = lazyWithRetry(
   () => import('../pages/AdminPage/FooterContactsPage/FooterContactsManagementPage')
 );
+const AdvertisementsManagementPage = lazyWithRetry(
+  () => import('../pages/AdminPage/AdvertisementsPage/AdvertisementsManagementPage')
+);
 const SettingsPage = lazyWithRetry(() => import('../pages/AdminPage/SettingsPage/SettingsPage'));
 const DataSubjectRightsPage = lazyWithRetry(() => import('../pages/AdminPage/DataSubjectRightsPage/DataSubjectRightsPage'));
 const PersonForm = lazyWithRetry(() =>
@@ -331,6 +334,16 @@ export const routes: RouteObject[] = [
           <ProtectedRoute>
             <SuspenseWrapper>
               <FooterContactsManagementPage />
+            </SuspenseWrapper>
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: '/admin/site-content/ads',
+        element: (
+          <ProtectedRoute>
+            <SuspenseWrapper>
+              <AdvertisementsManagementPage />
             </SuspenseWrapper>
           </ProtectedRoute>
         )
